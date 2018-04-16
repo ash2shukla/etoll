@@ -1,0 +1,4 @@
+django_redis
+django-rest-framework
+django-rest-framework-jwt
+django-cors-headers

@@ -1,0 +1,79 @@
+### FOR SIGNUP SEE TESTAUTH.PY ###
+
+########### Add vehicle ########
+
+CLIENT APP: Login.
+CLIENT APP: Add RC.
+
+SERVER: Check if RC is alotted to the DL, if true then add OK.
+
+If RC Not available in DB then ask to add PIN.
+elif RC is available then prompt for PIN.
+
+Do not prompt to create the sharing pin at the time of adding. In case some one wants to share a vehicle then he will create pin later on for that vehicle.
+
+In order to add someone else's vehicle ask their vehicle's RC and ask their PIN.
+
+*Discuss*
+If the PIN should be unique for each vehicle or same for all. Maybe equal to Password?
+
+############### Now a person has a log of his vehicles and an account ############
+
+Create a DB of Tolls.
+
+Toll = {
+	Toll_ID,
+	Toll_latlng,
+	Toll_Meta,
+}
+
+geofence the Tolls.
+
+If vehicle is in fence prompt that toll is in range.
+
+On Notification Touch,
+
+Give option to choose - Destination.
+
+E.g. if user is near X toll and it goes till Y and Z.
+
+prompt something like this - 
+[select vehicle] on select vehicle request server to return the fares and populate the fares
+[ Pay Till ]
+[ X - Y ] (Fare Y)
+[ X - Z ] (Fare Z)
+
+User selects one option and pays using UPI or something. Create a mock API for that.
+
+We get the txnID for a DL, RC, From Toll, To Toll.
+We create a random identifier for all this information lets call it eTollTxnID
+eTollTxnID also contains a csv list of the intermediate TollIDs e.g. for X-Z it contains Y,Z.
+He gets a QR of eTollTxnID
+
+The person goes to toll and scans the QR.
+
+QR along with OCR of the vehicle's number plate is sent to server's QR verification method.
+QR verification method gets 3 things,
+
+1. User.
+2. Vehicle Number
+3. eTollTxnID
+4. eTollID <Embedded in RPi and Sent By the RPi>
+
+Verify eTollTxnID's RC's Vehicle Number.
+
+Check if eTollID is in the eTollTxnID.TollChain
+
+If it is not then Something has been fucked up by user.
+If it is then check if it is the first one in the TollChain.
+Remember eTollID's must maintain the sequence.
+User cant just fly to other toll.
+Even if it is a return journey it will be Y-Z-Z-Y.
+
+If all OK then,
+Delete the first element from TollChain and let go.
+
+As soon as TollChain is empty post_save then delete the instance as there is no use of QR now.
+
+
+Pay in advance!
