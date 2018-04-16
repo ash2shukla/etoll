@@ -69,6 +69,8 @@ JWT_AUTH = {
 
 INSTALLED_APPS = [
     'authenticate',
+    'vehicle',
+    'tolls',
     'corsheaders',
     'rest_framework.authtoken',
     'rest_framework',

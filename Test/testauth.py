@@ -2,14 +2,10 @@ from requests import get, post
 from json import loads
 
 
-USER = 'UP131234567890'
+USER1 = 'UP131234567890'
+USER2 = 'DL123456789012'
 PASS = '!23ashish'
 BASE = 'http://localhost:8000/'
-
-
-def get_user(token):
-    url = BASE + 'auth/user/'
-    return get(url, headers={'Authorization': 'JWT ' + token}).text
 
 
 # 1.
@@ -41,7 +37,7 @@ def signup(token):
     """
     He sends a request with password with this token
     server gets his dl and mobile through this token and signs him up.
-    
+
     If no token exists then it means either he has timed out or else he is
     messing with application.
     """
@@ -50,9 +46,15 @@ def signup(token):
 
 
 # 4.
-def login():
+def login1():
     url = BASE + 'auth/login/'
-    return post(url, data={'username': USER, 'password': PASS}).text
+    return post(url, data={'username': USER1, 'password': PASS}).text
+
+
+# 5.
+def login2():
+    url = BASE + 'auth/login/'
+    return post(url, data={'username': USER2, 'password': PASS}).text
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-from .views import ListUsers, Signup, SendOTP, VerifyDLUID
+from .views import Signup, SendOTP, VerifyDLUID
 from django.urls import path
 from rest_framework_jwt.views import (obtain_jwt_token,
                                       refresh_jwt_token,
@@ -12,6 +12,4 @@ urlpatterns = [
     path('login/', obtain_jwt_token),
     path('refreshtoken/', refresh_jwt_token),
     path('verifytoken/', verify_jwt_token),
-
-    path('user/', ListUsers.as_view()),
 ]

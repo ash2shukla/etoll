@@ -25,6 +25,9 @@ Toll = {
 	Toll_ID,
 	Toll_latlng,
 	Toll_Meta,
+	Toll_Costs: {
+		vtype: [oneside, return, monthly, commercial]
+	}
 }
 
 geofence the Tolls.
@@ -33,47 +36,27 @@ If vehicle is in fence prompt that toll is in range.
 
 On Notification Touch,
 
-Give option to choose - Destination.
-
-E.g. if user is near X toll and it goes till Y and Z.
-
 prompt something like this - 
 [select vehicle] on select vehicle request server to return the fares and populate the fares
-[ Pay Till ]
-[ X - Y ] (Fare Y)
-[ X - Z ] (Fare Z)
+
+Show Toll Cost Based on Selected Vehicle.
 
 User selects one option and pays using UPI or something. Create a mock API for that.
 
 We get the txnID for a DL, RC, From Toll, To Toll.
 We create a random identifier for all this information lets call it eTollTxnID
-eTollTxnID also contains a csv list of the intermediate TollIDs e.g. for X-Z it contains Y,Z.
 He gets a QR of eTollTxnID
 
 The person goes to toll and scans the QR.
 
+############################## LEFT ####################################################
+
 QR along with OCR of the vehicle's number plate is sent to server's QR verification method.
 QR verification method gets 3 things,
 
-1. User.
-2. Vehicle Number
-3. eTollTxnID
-4. eTollID <Embedded in RPi and Sent By the RPi>
+1. Vehicle Number
+2. eTollTxnID
+3. eTollID <Embedded in RPi and Sent By the RPi>
+4. GateNo <Embedded in RPi and Sent By the RPi>
 
-Verify eTollTxnID's RC's Vehicle Number.
-
-Check if eTollID is in the eTollTxnID.TollChain
-
-If it is not then Something has been fucked up by user.
-If it is then check if it is the first one in the TollChain.
-Remember eTollID's must maintain the sequence.
-User cant just fly to other toll.
-Even if it is a return journey it will be Y-Z-Z-Y.
-
-If all OK then,
-Delete the first element from TollChain and let go.
-
-As soon as TollChain is empty post_save then delete the instance as there is no use of QR now.
-
-
-Pay in advance!
+Verify eTollTxnID's RC's Vehicle Number and as per the time verify the ttype

@@ -61,13 +61,3 @@ class Signup(APIView):
                 user.profile.mobile = mob
                 user.save()
                 return Response({'res': 'created'})
-
-
-class ListUsers(APIView):
-    authentication_classes = (JSONWebTokenAuthentication,)
-    permission_classes = (permissions.IsAdminUser,)
-
-    def get(self, request, format=None):
-        print(request.user)
-        usernames = [user.username for user in User.objects.all()]
-        return Response(usernames)
