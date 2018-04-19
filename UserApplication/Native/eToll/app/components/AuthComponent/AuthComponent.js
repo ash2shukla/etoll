@@ -16,7 +16,6 @@ export default class AuthComponent extends Component {
   	}
   }
   render() {
-  	console.log('From Auth Component');
     return (
       <View>
         <Text>

@@ -19,7 +19,7 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View>
-        <AuthComponent propValue="123"/>
+        <AuthComponent propValue="And make love on linen sheets"/>
       </View>
     );
   }

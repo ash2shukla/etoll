@@ -1,7 +1,1 @@
-# Coding Standards
-
-#### ClassName
-#### functionName
-#### variable_name
-#### CONSTANTS
-#### Decorators
+An implementation of eToll.

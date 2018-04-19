@@ -50,8 +50,12 @@ class Share(APIView):
             return Response({'err': 'RC DoesNotExist'})
         except Exception as e:
             return Response({'err': e})
-        if vehicle_obj.owner != request.user:
-            return Response({'err': 'Vehicle Not Owned'})
+        if vehicle_obj.owner == request.user:
+            pass
+        elif request.user in vehicle_obj.sharedWith.all():
+            pass
+        else:
+            return Response({'err': 'Vehicle Neither Owned Nor Shared'})
         if typ == 'qr':
             # Create a QR of request.data['RC'], it's PIN with csv
             qr_data_raw = vehicle_obj.RC + ',' + vehicle_obj.pin

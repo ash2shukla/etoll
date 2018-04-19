@@ -2,23 +2,23 @@ from requests import get, post
 from json import loads
 
 
-USER1 = 'UP131234567890'
-USER2 = 'DL123456789012'
-PASS = '!23ashish'
+USER1 = 'DL123456789012'
+USER2 = 'UP123456789012'
+PASS = 'test_pass'
 BASE = 'http://localhost:8000/'
 
 
 # 1.
-def sendOTP():
+def sendOTP(phone='9818611161'):
     """
     User Opens app and enters his own phone number for aadhaar verification
     """
     url = BASE + 'auth/otp/'
-    return get(url, params={'phone': '9818611161'}).text
+    return get(url, params={'phone': phone}).text
 
 
 # 2.
-def verifyDL():
+def verifyDL(uid='987654321012', dl='DL123456789012'):
     """
     After entering the aadhaar number he has received an OTP on his phone
     He enters his UID now with OTP and DL
@@ -27,9 +27,9 @@ def verifyDL():
     a token that he recieves as response of this request
     """
     url = BASE + 'auth/verify/'
-    return post(url, data={'uid': '903298497974',
-                           'otp': '123456',
-                           'dl': 'UP131234567890'}).text
+    return post(url, data={'uid': uid,
+                           'otp': '1234',
+                           'dl': dl}).text
 
 
 # 3.
@@ -42,7 +42,7 @@ def signup(token):
     messing with application.
     """
     url = BASE + 'auth/signup/'
-    return post(url, data={'token': token, 'pass': '!23ashish'}).text
+    return post(url, data={'token': token, 'pass': PASS}).text
 
 
 # 4.
@@ -57,11 +57,30 @@ def login2():
     return post(url, data={'username': USER2, 'password': PASS}).text
 
 
+# 6.
+def login(username):
+    url = BASE + 'auth/login/'
+    return post(url, data={'username': username, 'password': PASS}).text
+
+
+# 7.
+def refresh(token):
+    url = BASE + 'auth/refreshtoken/'
+    return post(url, data={'token': token}).text
+
+
+# 8.
+def getid(token, rc="TEST_RC"):
+    url = BASE + 'auth/getid/'
+    return post(url,
+                data={'rc': rc},
+                headers={'Authorization': 'JWT ' + token}).text
+
+
 if __name__ == "__main__":
     # print(sendOTP())
-    # token = loads(verifyDL())['token']
-    # print(signup(token))
-    token = loads(login())['token']
-    print(token)
-    print(get_user(token))
-
+    # signup_token = loads(verifyDL())['token']
+    # print(signup(signup_token))
+    token = loads(login2())['token']
+    # print(token)
+    print(getid(token))

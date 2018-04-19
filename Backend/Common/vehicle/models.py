@@ -16,11 +16,11 @@ class Vehicle(models.Model):
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                               related_name='%(class)s_vehicles_owner')
-    vehicle_no = models.CharField(max_length=100, blank=False, null=False)
-    RC = models.CharField(max_length=100, blank=False, null=False, unique=True)
-    pin = models.CharField(max_length=100, blank=False, null=False)
+    vehicle_no = models.CharField(max_length=100, blank=False, null=False, default='')
+    RC = models.CharField(max_length=100, blank=False, null=False, unique=True, default='')
+    pin = models.CharField(max_length=100, blank=False, null=False, default='')
     vtype = models.CharField(max_length=10, blank=False, null=False, default='')
-    sharedWith = models.ManyToManyField(User)
+    sharedWith = models.ManyToManyField(User, default=None)
 
     def __str__(self):
         return self.vehicle_no

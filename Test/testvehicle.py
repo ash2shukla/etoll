@@ -3,27 +3,27 @@ from testauth import BASE, login1, login2
 from json import loads
 
 
-def addvehicle(token):
+def addvehicle(token, rc='TEST_RC'):
     url = BASE + "vehicle/add/"
-    return post(url, data={'RC': 'TEST_RC'},
+    return post(url, data={'RC': rc},
                 headers={'Authorization': 'JWT ' + token}).text
 
 
-def sharevehicleqr(token):
+def sharevehicleqr(token, rc="TEST_RC"):
     url = BASE + "vehicle/share/qr/"
-    return post(url, data={'RC': 'TEST_RC'},
+    return post(url, data={'RC': rc},
                 headers={'Authorization': 'JWT ' + token}).text
 
 
-def sharevehiclepin(token):
+def sharevehiclepin(token, rc="TEST_RC"):
     url = BASE + "vehicle/share/pin/"
-    return post(url, data={'RC': 'TEST_RC'},
+    return post(url, data={'RC': rc},
                 headers={'Authorization': 'JWT ' + token}).text
 
 
-def addsharevehicle(token):
+def addsharevehicle(token, rc="TEST_RC", pin="4573"):
     url = BASE + "vehicle/addshare/"
-    return post(url, data={'RC': 'TEST_RC', 'pin': '4573'},
+    return post(url, data={'RC': rc, 'pin': pin},
                 headers={'Authorization': 'JWT ' + token}).text
 
 

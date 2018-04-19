@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +41,8 @@ REST_FRAMEWORK = {
     ),
 }
 
-#Cache
+
+# Cache
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -51,16 +53,19 @@ CACHES = {
     }
 }
 
+
 # DRF-JWT opts
+
+
 JWT_AUTH = {
-    'JWT_PAYLOAD_HANDLER':
-    'authenticate.jwtencdec.jwt_payload_handler',
-    'JWT_DECODE_HANDLER':
-    'authenticate.jwtencdec.jwt_decode_handler',
+    # 'JWT_PAYLOAD_HANDLER':
+    # 'authenticate.jwtencdec.jwt_payload_handler',
+    # 'JWT_DECODE_HANDLER':
+    # 'authenticate.jwtencdec.jwt_decode_handler',
     'JWT_ALGORITHM': 'HS256',
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': "etoll.rest",
-
+    'JWT_EXPIRATION_DELTA': timedelta(seconds=300000),
     'JWT_ALLOW_REFRESH': True,
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',

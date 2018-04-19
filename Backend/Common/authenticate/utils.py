@@ -14,7 +14,7 @@ def sendOTPto(to_number):
             opener.open(url, data)
         except IOError:
             return "ERR: SENDMSG"
-        otp = str(random())[2:8]
+        otp = str(random())[2:6]
         jession_id =str(cj).split('~')[1].split(' ')[0]
         send_sms_url = 'http://site24.way2sms.com/smstoss.action?'
         send_sms_data = bytes('ssaction=ss&Token='+jession_id+'&mobile='+to_number+'&message='+'Your One Time Pass is '+otp+'&msgLen=136','utf-8')

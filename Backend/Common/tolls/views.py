@@ -2,11 +2,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from vehicle.models import Vehicle
 from random import random
-from base64 import b64encode
-from qrcode import make
-from io import BytesIO
-from django.contrib.auth.models import User
-from .models import TransactionSerializer
+from django.core.cache import cache
+from django.utils import timezone
+from .models import TransactionSerializer, Transaction
 
 
 class TollTax(APIView):
@@ -60,31 +58,97 @@ class PayTollSuccess(APIView):
     and call this URL
     """
     def __init__(self):
-        self.usability_dict = {'S':1,
-                               'R':2,
-                               'M':-1,
-                               'C':1}
+        self.usability_dict = {'S': 1,
+                               'R': 2,
+                               'M': -1,
+                               'C': 1}
 
     def post(self, request, format=None):
-        eTollTxnID = request.data['eTollTxnID']
-        dl = request.data['dl']
+        eTollTxnID = 'eTXNID' + str(random())[2:]
         rc = request.data['rc']
-        rc_obj = Vehicle.objects.get(RC=rc).id
+        try:
+            rc_obj = Vehicle.objects.get(RC=rc)
+            if rc_obj.owner == request.user:
+                print('Owner Requested')
+                pass
+            elif request.user in rc_obj.sharedWith.all():
+                print('Shared Owner Requested')
+                pass
+            else:
+                return Response({'err': 'Vehicle is neither shared nor owned'})
+        except Vehicle.DoesNotExist:
+            return Response({'err': 'Vehicle DoesNotExist'})
         mutable_data = request.data.dict()
-        mutable_data['dl'] = User.objects.get(username=dl).id
-        mutable_data['rc'] = rc
+        mutable_data['eTollTxnID'] = eTollTxnID
+        mutable_data['dl'] = request.user.id
+        mutable_data['rc'] = rc_obj.id
         mutable_data['usability'] = self.usability_dict[request.data['ttype']]
         serializer = TransactionSerializer(data=mutable_data)
         if serializer.is_valid():
             serializer.save()
             # save this transaction and return a QR code containing eTollTxnID,
             # dl and rc
-
-            qr_data_raw = eTollTxnID + ',' + dl + ',' + rc_obj.vehicle_no
-            bio = BytesIO()
-            qr = make(qr_data_raw)
-            qr.save(bio, type='JPEG')
-            b64qr = b64encode(bio.getvalue())
-            return Response({'res': 'success', 'qr': b64qr.decode()})
+            return Response({'res': 'success', 'txnID': eTollTxnID})
         else:
             return Response({'res': 'fail', 'errors': serializer.errors})
+
+
+class GetTransactions(APIView):
+    """
+    returns all transactions related to a user
+    """
+    def get(self, request, format=None):
+        txnObjs = Transaction.objects.filter(dl=request.user)
+        return Response({'data': TransactionSerializer(txnObjs, many=True).data})
+
+
+class RaspbVerify(APIView):
+    """
+    Invoked by Raspberry Pi Invokes
+    """
+    permission_classes = ()
+
+    def post(self, request, format=None):
+        emitdata = {}
+        qr = request.data['qr']
+        eTollID = request.data['eTollID']
+        emitdata['eTollID'] = eTollID
+        alpred_no = request.data['alpr']
+        dl, rc, vehicle_no = qr.split(',')
+        emitdata['dl'] = dl
+        emitdata['rc'] = rc
+        emitdata['vehicle_no'] = vehicle_no
+        emitdata['timestamp'] = str(int(timezone.now().timestamp() * 1000))
+        try:
+            txnObj = Transaction.objects.get(dl__username=dl,
+                                             rc__RC=rc,
+                                             eTollID=eTollID,
+                                             validity=True)
+            emitdata['amount_paid'] = txnObj.amount_paid
+            emitdata['journey_type'] = txnObj.ttype
+            if str(txnObj.rc) != alpred_no:
+                return Response({'res': False, 'reason': 'ALPR Didnt Match'})
+            # if the user's transaction is valid for this eToll
+            # check the ttype and check the validity accordingly
+            if txnObj.ttype == 'S':
+                txnObj.usability = 0
+                txnObj.validity = False
+                txnObj.save()
+                emitdata['scan_valid'] = True
+                emitdata['invalid_reason'] = ''
+                return Response({'res': True, 'emitdata': emitdata})
+            # in order to check the time elapsed since creation of this txn
+            # print((txnObj.created - timezone.now()).total_seconds())
+            emitdata['scan_valid'] = False
+            emitdata['invalid_reason'] = 'Invalid Type'
+            return Response({'res': False, 'reason': 'Invalid Type',
+                             'emitdata': emitdata})
+        except Transaction.DoesNotExist:
+            emitdata['scan_valid'] = False
+            emitdata['invalid_reason'] = 'Transaction DoesNotExist'
+            return Response({'res': False,
+                             'reason': 'Transaction DoesNotExist'})
+        except Exception as e:
+            emitdata['scan_valid'] = False
+            emitdata['invalid_reason'] = e
+            return Response({'res': False, 'reason': e})
