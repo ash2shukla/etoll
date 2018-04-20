@@ -31,6 +31,18 @@ class Transaction(models.Model):
     def __str__(self):
         return self.eTollTxnID
 
+    def __json__(self):
+        return {"eTollTxnID": self.eTollTxnID,
+                "gatewayTxnID": self.gatewayTxnID,
+                "dl": self.dl.username,
+                "rc": self.rc.RC,
+                "eTollID": str(self.eTollID),
+                "ttype": self.ttype,
+                "created": str(int(self.created.timestamp() * 1000)),
+                "modified": str(int(self.modified.timestamp() * 1000)),
+                "amount_paid": self.amount_paid,
+                "validity": self.validity}
+
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
         if not self.id:

@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from .utils import sendOTPto
 from django.core.cache import cache
 from random import random
-from django.conf import settings
-import jwt
 from io import BytesIO
 from qrcode import make
 from base64 import b64encode
@@ -17,8 +15,7 @@ class SendOTP(APIView):
 
     def get(self, request, format=None):
         phone = request.query_params['phone']
-        sendOTPto(phone)
-        return Response()
+        return Response({'status': str(sendOTPto(phone))})
 
 
 class VerifyDLUID(APIView):

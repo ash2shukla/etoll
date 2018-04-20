@@ -101,8 +101,10 @@ class ListOwned(APIView):
         Return a list of owned vehicles by the request.user
         """
         owned_vehicles = Vehicle.objects.filter(owner__exact=request.user)
-        print(owned_vehicles)
-        return Response(VehicleSerializer(owned_vehicles, many=True).data)
+        retval = []
+        for i in owned_vehicles:
+            retval.append(i.__json__())
+        return Response(retval)
 
 
 class ListShared(APIView):
@@ -111,4 +113,7 @@ class ListShared(APIView):
         Return a list of vehicles shared with request.user
         """
         shared_vehicles = Vehicle.objects.filter(sharedWith__exact=request.user)
-        return Response(VehicleSerializer(shared_vehicles, many=True).data)
+        retval = []
+        for i in shared_vehicles:
+            retval.append(i.__json__())
+        return Response(retval)

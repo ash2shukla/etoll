@@ -1,0 +1,82 @@
+[
+  {
+    "dl": "DL123456789012",
+    "phone": "0000000000",
+    "uid": "111122223333",
+    "password": "test_pass",
+    "vehicle_1": "DL01J0123",
+    "vehicle_2": "DL02J0123"
+  },
+  {
+    "dl": "UP123456789012",
+    "phone": "1111111111",
+    "uid": "222233334444",
+    "password": "test_pass",
+    "vehicle_1": "UP01J0123",
+    "vehicle_2": "UP02J0123"
+  },
+  {
+    "dl": "TL123456789012",
+    "phone": "2222222222",
+    "uid": "333344445555",
+    "password": "test_pass",
+    "vehicle_1": "TL01J0123",
+    "vehicle_2": "TL02J0123"
+  },
+  {
+    "dl": "MH123456789012",
+    "phone": "3333333333",
+    "uid": "444455556666",
+    "password": "test_pass",
+    "vehicle_1": "MH01J0123",
+    "vehicle_2": "MH02J0123"
+  },
+  {
+    "dl": "KL123456789012",
+    "phone": "4444444444",
+    "uid": "555566667777",
+    "password": "test_pass",
+    "vehicle_1": "KL01J0123",
+    "vehicle_2": "KL02J0123"
+  },
+  {
+    "dl": "AP123456789012",
+    "phone": "5555555555",
+    "uid": "666677778888",
+    "password": "test_pass",
+    "vehicle_1": "AP01J0123",
+    "vehicle_2": "AP02J0123"
+  },
+  {
+    "dl": "KR123456789012",
+    "phone": "6666666666",
+    "uid": "777788889999",
+    "password": "test_pass",
+    "vehicle_1": "KR01J0123",
+    "vehicle_2": "KR02J0123"
+  },
+  {
+    "dl": "MP123456789012",
+    "phone": "7777777777",
+    "uid": "888899990000",
+    "password": "test_pass",
+    "vehicle_1": "MP01J0123",
+    "vehicle_2": "MP02J0123"
+  },
+  {
+    "dl": "GJ123456789012",
+    "phone": "8888888888",
+    "uid": "999900001111",
+    "password": "test_pass",
+    "vehicle_1": "GJ01J0123",
+    "vehicle_2": "GJ02J0123"
+  },
+  {
+    "dl": "PB123456789012",
+    "phone": "9999999999",
+    "uid": "000011112222",
+    "password": "test_pass",
+    "vehicle_1": "PB01J0123",
+    "vehicle_2": "PB02J0123"
+  }
+]

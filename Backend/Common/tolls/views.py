@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from vehicle.models import Vehicle
 from random import random
+from json import dumps
 from django.core.cache import cache
 from django.utils import timezone
 from .models import TransactionSerializer, Transaction
@@ -99,7 +100,10 @@ class GetTransactions(APIView):
     """
     def get(self, request, format=None):
         txnObjs = Transaction.objects.filter(dl=request.user)
-        return Response({'data': TransactionSerializer(txnObjs, many=True).data})
+        retval = []
+        for i in txnObjs:
+            retval.append(i.__json__())
+        return Response({'data': retval})
 
 
 class RaspbVerify(APIView):
