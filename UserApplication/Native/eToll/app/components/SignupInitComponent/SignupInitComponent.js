@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Sae } from 'react-native-textinput-effects';
 import config from '../../../config';
 
 
@@ -42,20 +44,32 @@ export default class SignupInitComponent extends Component {
 
   render() {
     return (
-      <View>
-        <TextInput
-            placeholder="Mobile"
-            onChangeText={(mobile) => this.setState({mobile})}
-            value={this.state.mobile}
-            editable = {true}
-            maxLength = {40}
+      <View style={{justifyContent: 'center' }}>
+        <View style={{
+          borderRadius: 2,
+          padding: 8,
+          margin: 8,
+          backgroundColor: 'rgba(255, 255, 255, 1)',
+          minHeight: 76,
+          shadowOpacity: 0.54,
+          shadowRadius: 1,
+          shadowOffset: { width: 0, height: 1 },
+          elevation: 1,
+        }}>
+          <TextInput
+              placeholder="Mobile"
+              onChangeText={(mobile) => this.setState({mobile})}
+              value={this.state.mobile}
+              editable = {true}
+              maxLength = {40}
           />
-        <Button
-          onPress={this.genotp.bind(this)}
-          title="Login"
-          color="#841584"
-        />
+          <Button
+            onPress={this.genotp.bind(this)}
+            title="Send OTP"
+            color="#841584"
+          />
       </View>
+     </View>
     );
   }
 }

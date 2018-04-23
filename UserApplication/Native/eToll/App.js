@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import { TabNavigator, SwitchNavigator, StackNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import TransactionComponent from './app/components/TransactionComponent/TransactionComponent';
 import VehiclesComponent from './app/components/VehiclesComponent/VehiclesComponent';
@@ -45,12 +45,15 @@ export default SwitchNavigator({
                         tabBarPosition: 'bottom',
                         tabBarOptions: {
                             bottomNavigationOptions: {
-                              labelColor: 'white',
-                              rippleColor: 'white',
+                              labelColor: 'black',
+                              rippleColor: '#1c437c',
                               tabs: {
-                                Profile: {barBackgroundColor: '#5D4037'},
-                                Transaction: {barBackgroundColor: '#37474F'},
-                                Vehicles: {barBackgroundColor: '#00796B'},              
+                                Profile: {barBackgroundColor: '#f0f0f0',
+                                           activeIcon: <Icon size={24} color="#003e9c" name="account-box"  />},
+                                Transaction: {barBackgroundColor: '#f0f0f0', 
+                                              activeIcon: <Icon size={24} color="#003e9c" name="receipt" />},
+                                Vehicles: {barBackgroundColor: '#f0f0f0',
+                                           activeIcon: <Icon size={24} color="#003e9c" name="directions-car" />},              
                                 }
                             }
                           }

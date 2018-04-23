@@ -89,7 +89,7 @@ class AddShare(APIView):
             return Response({'err': e})
         if vehicle_obj.pin == pin:
             vehicle_obj.sharedWith.add(request.user)
-            return Response({'res': 'ok added'})
+            return Response({'pin':''})
         else:
             return Response({'res': 'wrong pin'})
         return Response({'res': 'some other error occured'})

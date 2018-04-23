@@ -11,7 +11,7 @@ import {
   Button,
   AppRegistry
 } from 'react-native';
-import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
+import OtpInputs from 'react-native-otp-inputs'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import config from '../../../config';
 
@@ -20,7 +20,7 @@ export default class SignupVerifyComponent extends Component {
 
   constructor(props) {
   	super(props);
-    this.state = {dl: '', otp: '', uid: '', mobile: this.props.navigation.state.params.mobile};
+    this.state = {dl: '', otp: '', uid: '', mobile: ''};
   }
 
   verifyHandler(jsonResponse) {
@@ -52,6 +52,10 @@ export default class SignupVerifyComponent extends Component {
   render() {
     return (
       <View>
+        <OtpInputs focusedBorderColor="#f0f0f0"
+                    inputContainerStyles={{backgroundColor: "white", borderColor:"grey", borderWidth:1}}
+                    handleChange={otp => this.setState({otp})} 
+          numberOfInputs={4} />
         <TextInput
             placeholder="DL"
             onChangeText={(dl) => this.setState({dl})}
@@ -63,13 +67,6 @@ export default class SignupVerifyComponent extends Component {
             placeholder="UID"
             onChangeText={(uid) => this.setState({uid})}
             value={this.state.uid}
-            editable = {true}
-            maxLength = {40}
-          />
-        <TextInput
-            placeholder="OTP"
-            onChangeText={(otp) => this.setState({otp})}
-            value={this.state.otp}
             editable = {true}
             maxLength = {40}
           />

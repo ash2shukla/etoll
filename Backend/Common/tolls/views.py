@@ -2,10 +2,19 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from vehicle.models import Vehicle
 from random import random
-from json import dumps
 from django.core.cache import cache
 from django.utils import timezone
-from .models import TransactionSerializer, Transaction
+from .models import TransactionSerializer, Transaction, eToll
+
+
+class GetTolls(APIView):
+    """
+    Return a list of toll IDs
+    """
+    def get(self, request, format=None):
+        eTolls = eToll.objects.all()
+        retval = [i.__json__() for i in eTolls]
+        return Response({'data': retval})
 
 
 class TollTax(APIView):
@@ -27,9 +36,14 @@ class TollTax(APIView):
             vehicle_obj = Vehicle.objects.get(RC__exact=RC)
         except Vehicle.DoesNotExist:
             return Response({'err': 'Vehicle Does not Exist'})
+        try:
+            eToll.objects.get(eTollID__exact=eTollID)
+        except eToll.DoesNotExist:
+            return Response({'err': 'eToll Does not Exist'})
         except Exception as e:
-            return Response({'err': e})
-
+            return Response({'err': str(e)})
+        if ttype not in ['S', 'R']:
+            return Response({'err': 'Invalid Journey Type'})
         tax = self.get_toll(vehicle_obj.vtype, eTollID, ttype)
         return Response({'tax': tax})
 
@@ -79,7 +93,7 @@ class PayTollSuccess(APIView):
                 return Response({'err': 'Vehicle is neither shared nor owned'})
         except Vehicle.DoesNotExist:
             return Response({'err': 'Vehicle DoesNotExist'})
-        mutable_data = request.data.dict()
+        mutable_data = request.data
         mutable_data['eTollTxnID'] = eTollTxnID
         mutable_data['dl'] = request.user.id
         mutable_data['rc'] = rc_obj.id
@@ -103,6 +117,7 @@ class GetTransactions(APIView):
         retval = []
         for i in txnObjs:
             retval.append(i.__json__())
+        retval.sort(key=lambda x: int(x['created']), reverse=True)
         return Response({'data': retval})
 
 
@@ -124,14 +139,16 @@ class RaspbVerify(APIView):
         emitdata['vehicle_no'] = vehicle_no
         emitdata['timestamp'] = str(int(timezone.now().timestamp() * 1000))
         try:
-            txnObj = Transaction.objects.get(dl__username=dl,
+            txnObj = Transaction.objects.filter(dl__username=dl,
                                              rc__RC=rc,
                                              eTollID=eTollID,
-                                             validity=True)
+                                             validity=True)[0]
             emitdata['amount_paid'] = txnObj.amount_paid
             emitdata['journey_type'] = txnObj.ttype
-            if str(txnObj.rc) != alpred_no:
-                return Response({'res': False, 'reason': 'ALPR Didnt Match'})
+            if str(txnObj.rc.vehicle_no) != alpred_no:
+                emitdata['scan_valid'] = False
+                emitdata['invalid_reason'] = 'ALPR Didnt Match'
+                return Response({'res': False, 'emitdata': emitdata})
             # if the user's transaction is valid for this eToll
             # check the ttype and check the validity accordingly
             if txnObj.ttype == 'S':
@@ -147,12 +164,12 @@ class RaspbVerify(APIView):
             emitdata['invalid_reason'] = 'Invalid Type'
             return Response({'res': False, 'reason': 'Invalid Type',
                              'emitdata': emitdata})
-        except Transaction.DoesNotExist:
+        except IndexError:
             emitdata['scan_valid'] = False
             emitdata['invalid_reason'] = 'Transaction DoesNotExist'
             return Response({'res': False,
-                             'reason': 'Transaction DoesNotExist'})
+                             'emitdata': emitdata})
         except Exception as e:
             emitdata['scan_valid'] = False
-            emitdata['invalid_reason'] = e
-            return Response({'res': False, 'reason': e})
+            emitdata['invalid_reason'] = str(e)
+            return Response({'res': False, 'emitdata': emitdata})

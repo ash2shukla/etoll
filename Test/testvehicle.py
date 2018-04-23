@@ -36,12 +36,16 @@ def getallsharedvehicles(token):
     url = BASE + "vehicle/listshared/"
     return get(url, headers={'Authorization': 'JWT ' + token}).text
 
+def getprofile(token):
+    url = BASE + "auth/profile/"
+    return get(url, headers={'Authorization': 'JWT ' + token}).text
 
 if __name__ == "__main__":
     token = loads(login1())['token']
-    print(addvehicle(token))
-    print(sharevehicleqr(token))
-    print(sharevehiclepin(token))
-    print(addsharevehicle(token))
-    print(getallownedvehicles(token))
-    print(getallsharedvehicles(token))
+    # print(addvehicle(token))
+    # print(sharevehicleqr(token))
+    # print(sharevehiclepin(token))
+    # print(addsharevehicle(token))
+    # print(getallownedvehicles(token))
+    # print(getallsharedvehicles(token))
+    print(getprofile(token))

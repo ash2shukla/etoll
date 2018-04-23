@@ -10,11 +10,16 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TextInput,
-  AppRegistry
+  AppRegistry,
+  ToastAndroid
 } from 'react-native';
 import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import config from '../../../config';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
+import { Sae } from 'react-native-textinput-effects';
+import styles from './home.styles';
 
 export default class HomeComponent extends Component {
 
@@ -39,7 +44,7 @@ export default class HomeComponent extends Component {
         .then(()=>this.props.navigation.navigate('Main'))
         .catch((error)=>console.log('Error Saving Data', error));
     } else {
-      console.log('mal attempt to login');
+      ToastAndroid.show('Wrong Credentials',ToastAndroid.SHORT);
     }
   }
 
@@ -59,35 +64,48 @@ export default class HomeComponent extends Component {
       .then((jsonResponse)=>{this.loginHandler(jsonResponse)})
       .catch((error)=>console.log('Error sending request ',error));
   }
-
+//{flex:1, justifyContent:'center', padding:60}
   render() {
     return (
-      <View>
-        <TextInput
-          placeholder="DL"
+      <View style={{flex:1, justifyContent:'center', padding:20}}>
+        <View style={styles.card}>
+        <Sae
+          label={'Driving License'}
+          iconClass={FontAwesomeIcon}
+          inputStyle={{color:'#003e9c'}}
+          iconName={'address-card'}
+          iconColor={'#003e9c'}
+          autoFocus={true}
+          labelStyle={{color:'#003e9c'}}
+          autoCapitalize={'characters'}
+          autoCorrect={false}
           editable = {true}
           onChangeText={(username) => this.setState({username})}
           value={this.state.username}
           maxLength = {40}
+          autoCorrect={false}
         />
-        <TextInput
-          placeholder="Password"
+        <Sae
+          label={'Password'}
+          iconClass={FontAwesomeIcon}
+          iconName={'pencil'}
+          iconColor={'#003e9c'}
+          inputStyle={{color:'#003e9c'}}
+          labelStyle={{color:'#003e9c'}}
+          autoCapitalize={'none'}
+          autoCorrect={false}
           onChangeText={(password) => this.setState({password})}
+          secureTextEntry={true}
           value={this.state.password}
           editable = {true}
           maxLength = {40}
+          autoCorrect={false}
+          style={{marginBottom:10}}
         />
-        <Button
-          onPress={this.login.bind(this)}
-          title="Login"
-          color="#841584"
-        />
-        <Button
-          onPress={()=> this.props.navigation.navigate('Signup')}
-          title="Go to Signup"
-          color="#841584"
-        />
+         <RaisedTextButton color='#1c437c' onPress={this.login.bind(this)} style={{ marginTop: 4, marginLeft: 0 }} titleColor='white' title='Login' />
+         <TextButton style={{marginBottom: 10}} onPress={()=> this.props.navigation.navigate('Signup')} rippleDuration={600} rippleOpacity={0.54} titleStyle={{fontSize:12}} title="Haven't signed up yet?" titleColor='#1c437c' />
       </View>
+     </View>
     );
   }
 }

@@ -11,6 +11,9 @@ class eToll(models.Model):
     # meta_data should be a JSONField in PostgreSQL
     meta_data = models.CharField(max_length=1000)
 
+    def __json__(self):
+        return {'eTollID': self.eTollID, 'loc': self.lat_lng, 'meta': self.meta_data}
+
     def __str__(self):
         return self.eTollID
 

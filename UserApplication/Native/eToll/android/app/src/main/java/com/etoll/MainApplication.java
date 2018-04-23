@@ -3,7 +3,13 @@ package com.etoll;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.cmcewen.blurview.BlurViewPackage;
+import io.realm.react.RealmReactPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.transistorsoft.rnbackgroundfetch.RNBackgroundFetchPackage;
+import com.surialabs.rn.geofencing.GeoFencingPackage;
+import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
+import org.reactnative.camera.RNCameraPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,8 +31,14 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new BlurViewPackage(),
+            new RNBackgroundFetchPackage(),
+            new MainReactPackage(),
+            new RealmReactPackage(),
+            new ReactNativePushNotificationPackage(),
+            new GeoFencingPackage(),
+            new BackgroundTaskPackage(),
+            new LottiePackage(),
+            new RNCameraPackage(),
             new ReactNativeConfigPackage(),
             new VectorIconsPackage()
       );
@@ -47,5 +59,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    BackgroundTaskPackage.useContext(this);
   }
 }

@@ -8,7 +8,8 @@ from io import BytesIO
 from qrcode import make
 from base64 import b64encode
 from vehicle.models import Vehicle
-
+from tolls.models import Transaction
+from collections import Counter
 
 class SendOTP(APIView):
     permission_classes = ()
@@ -16,6 +17,37 @@ class SendOTP(APIView):
     def get(self, request, format=None):
         phone = request.query_params['phone']
         return Response({'status': str(sendOTPto(phone))})
+
+
+class GetProfile(APIView):
+    """
+    Returns profile of a user
+    """
+    def get(self, request, format=None):
+        user = request.user
+        retval = {}
+        retval['firstname'] = user.first_name
+        retval['lastname'] = user.last_name
+        retval['mobile'] = user.profile.mobile
+        retval['email'] = user.email
+        retval['dl'] = user.username
+        retval['address'] = user.profile.address
+        retval['sql_analytics'] = {'data': 'none'}
+        user_txns = Transaction.objects.filter(dl=user)
+        if user_txns != []:
+            toll_list = [str(i.eTollID) for i in user_txns]
+            amount_list = [int(i.amount_paid) for i in user_txns]
+            rc_list = [str(i.rc.vehicle_no) for i in user_txns]
+            active_list = [i.validity for i in user_txns]
+            c = Counter(toll_list)
+            rc = Counter(rc_list)
+            ac = Counter(active_list)
+            retval['sql_analytics']['most_visited'] = c.most_common(1)[0][0]
+            retval['sql_analytics']['total_spent'] = str(sum(amount_list))
+            retval['sql_analytics']['most_used_vehicle'] = rc.most_common(1)[0][0]
+            retval['sql_analytics']['active_txn'] = str(ac.most_common(1)[0][1])
+            retval['sql_analytics']['shared_with'] = [str(i.vehicle_no) for i in user.vehicle_set.all()]
+        return Response({'data': retval})
 
 
 class VerifyDLUID(APIView):
