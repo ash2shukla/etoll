@@ -42,11 +42,18 @@ class GetProfile(APIView):
             c = Counter(toll_list)
             rc = Counter(rc_list)
             ac = Counter(active_list)
-            retval['sql_analytics']['most_visited'] = c.most_common(1)[0][0]
-            retval['sql_analytics']['total_spent'] = str(sum(amount_list))
-            retval['sql_analytics']['most_used_vehicle'] = rc.most_common(1)[0][0]
-            retval['sql_analytics']['active_txn'] = str(ac.most_common(1)[0][1])
-            retval['sql_analytics']['shared_with'] = [str(i.vehicle_no) for i in user.vehicle_set.all()]
+            try:
+                retval['sql_analytics']['most_visited'] = c.most_common(1)[0][0]
+                retval['sql_analytics']['total_spent'] = str(sum(amount_list))
+                retval['sql_analytics']['most_used_vehicle'] = rc.most_common(1)[0][0]
+                retval['sql_analytics']['active_txn'] = str(ac.most_common(1)[0][1])
+                retval['sql_analytics']['shared_with'] = ', '.join([str(i.vehicle_no) for i in user.vehicle_set.all()])
+            except :
+                retval['sql_analytics']['most_visited'] = ''
+                retval['sql_analytics']['total_spent'] = ''
+                retval['sql_analytics']['most_used_vehicle'] = ''
+                retval['sql_analytics']['active_txn'] = ''
+                retval['sql_analytics']['shared_with'] = ''
         return Response({'data': retval})
 
 

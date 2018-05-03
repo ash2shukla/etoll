@@ -1,0 +1,27 @@
+DOCS URL - 
+
+Invention Disclosure URL - https://drive.google.com/file/d/1Spv9cWz7SSMmN4aHSbAidEVCteCb9LTR/view
+Supporting Document URL - https://drive.google.com/file/d/1oA4t-HMHMIodQObcbjVbf2eA0M1GanTo/view
+Youtube URL - https://youtu.be/j_EeoserjW4
+Start:
+
+Video will be in 3 parts-
+
+1. Introduction of Hardware and Architecture (Static Images Only) (10-15  Seconds only)
+
+2. Working (2 Minutes)
+	4 Sections-
+	(0,0) = Hardware and Real working.
+	(0,1) = User Application.
+	(1,0) = Raspberry Pi console I/O
+	(1,1) = Government Dashboard
+
+3. FAQ ( 1 Minute)
+	1. How would you scale the system for nationwide use?
+	2. How would you verify the User?
+	3. How would you deal with the case when a user has paid toll but doesn't have access to his phone?
+	4. How would you verify that vehicle trying to pass is actually the vehicle for which toll has been paid?
+	5. What if someone wants to share his own vehicle with some one else as well?
+	6. Except the analytics shown in prototype what other analytics can be produced?
+	7. How does it compare with the existing RFID based toll pay system?
+	8. What is access control heirarchy for vehicles? 

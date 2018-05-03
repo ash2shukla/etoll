@@ -16,6 +16,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Sae } from 'react-native-textinput-effects';
 import config from '../../../config';
+import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
+
 
 
 export default class SignupInitComponent extends Component {
@@ -56,17 +58,29 @@ export default class SignupInitComponent extends Component {
           shadowOffset: { width: 0, height: 1 },
           elevation: 1,
         }}>
-          <TextInput
-              placeholder="Mobile"
-              onChangeText={(mobile) => this.setState({mobile})}
-              value={this.state.mobile}
-              editable = {true}
-              maxLength = {40}
-          />
-          <Button
+          <Sae
+            label={'Enter Mobile Associated With Aadhaar'}
+            iconClass={FontAwesomeIcon}
+            iconName={'pencil'}
+            iconColor={'#003e9c'}
+            inputStyle={{color:'#003e9c'}}
+            labelStyle={{color:'#003e9c'}}
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            onChangeText={(mobile) => this.setState({mobile})}
+            secureTextEntry={true}
+            keyboardType={'numeric'}
+            value={this.state.mobile}
+            editable = {true}
+            maxLength = {40}
+            autoCorrect={false}
+            style={{marginBottom:10}}
+            />
+          <TextButton
             onPress={this.genotp.bind(this)}
             title="Send OTP"
-            color="#841584"
+            color="#1c437c"
+            titleColor='white'
           />
       </View>
      </View>

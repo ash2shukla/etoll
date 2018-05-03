@@ -49,7 +49,7 @@ class Share(APIView):
         except Vehicle.DoesNotExist:
             return Response({'err': 'RC DoesNotExist'})
         except Exception as e:
-            return Response({'err': e})
+            return Response({'err': str(e)})
         if vehicle_obj.owner == request.user:
             pass
         elif request.user in vehicle_obj.sharedWith.all():
@@ -74,22 +74,23 @@ class AddShare(APIView):
         """
         Adds a vehicle to a user as shared RC
         """
+        print(request.data)
         try:
             vehicle_obj = Vehicle.objects.get(RC=request.data['RC'])
         except Vehicle.DoesNotExist:
             return Response({'err': 'RC DoesNotExist'})
         except Exception as e:
-            return Response({'err': e})
+            return Response({'err': str(e)})
 
         if request.user == vehicle_obj.owner:
             return Response({'err': 'Cant share owned vehicle with yourself.'})
         try:
             pin = request.data['pin']
         except Exception as e:
-            return Response({'err': e})
+            return Response({'err': str(e)})
         if vehicle_obj.pin == pin:
             vehicle_obj.sharedWith.add(request.user)
-            return Response({'pin':''})
+            return Response({'pin': ''})
         else:
             return Response({'res': 'wrong pin'})
         return Response({'res': 'some other error occured'})

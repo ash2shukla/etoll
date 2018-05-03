@@ -1,0 +1,58 @@
+@INTRODUCTION
+# Show the Problem statement
+# Show the Hardware connections of device
+# 	Initially show connections of device
+# Show the architecture
+
+
+@WORKING
+
+@Hardware_Implementation ( Done )
+# Mount a number plate on something and put it in front of The camera
+# Show the person performing @Android activities
+
+@Android
+# Open Application
+# Login with pre-signedup account
+# Show all three tabs keep 2 transactions verified
+# Keep 2 vehciles and 1 shared
+# Add a transaction.
+# Demo Pay.
+# Show ID to RPi Scanner.
+
+@ RPi 
+# systen idle listening for response from HC-SR04 (proximity sensor)
+# Object Detected Scanning for QR
+# QR detected.
+# Scan Successful show QR data.
+# Init ALPR
+# ALPRed with accuracy show response of openalpr
+# sending authentication reuqest to server ALPR, QR
+# #Show server response
+# emitting data to kafka broker for analytics server (spark)
+# Signaling actuation
+
+@Kafka # BUMP: Other Streams are of the sythentic data created for simulating real-life scenario #
+# Received data from Rpi for eTollTxnID
+# Saved in MongoDB for persistence 
+# forwarded to spark
+
+@Spark # BUMP: Other Streams are of the sythentic data created for simulating real-life scenario #
+# Received data from Kafka for eTollTxnID
+# Analyzing data
+# Saved analytics for persistence on MongoDB
+
+@Kafka
+# Received analytics from spark forwarding to socket.io @ nodeJS
+# socket.io emitting event to Dashboard
+
+@Angular
+# Received analytics from socket.io
+# Graphs updated.
+
+# #zoom into angular's box
+# #Scroll through the angular's tabs
+
+@ FAQ
+How would you scale the system for nationwide use?
+

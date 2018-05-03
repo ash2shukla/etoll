@@ -33,7 +33,7 @@ export default class SplashComponent extends Component {
       .catch((error)=>{
         console.warn('Error Retrieving token', error);
       });
-    }, 0);
+    }, 1500);
   }
 
   render() {

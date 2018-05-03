@@ -39,7 +39,7 @@ export default class ProfileComponent extends Component {
         <Text style={styles.text2}><Strong>Active Transactions </Strong>{this.state.profileContent.sql_analytics.active_txn}</Text>
         <Text style={styles.text2}><Strong>Most Used Vehicle No </Strong>{this.state.profileContent.sql_analytics.most_used_vehicle}</Text>
         <Text style={styles.text2}><Strong>Vehicles People Share With You </Strong></Text>
-        <Text style={styles.text2}>{this.state.profileContent.sql_analytics.shared_with.reduce((acc, curr)=>acc+' ,'+curr)}</Text>
+        <Text style={styles.text2}>{this.state.profileContent.sql_analytics.shared_with}</Text>
         <TextButton
             onPress={()=>this.logout()}
             title="Logout"

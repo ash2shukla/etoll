@@ -1,4 +1,3 @@
-from requests import get, post
 from json import loads
 
 from testauth import *

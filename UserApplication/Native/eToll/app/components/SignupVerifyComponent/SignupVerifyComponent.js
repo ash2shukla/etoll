@@ -11,9 +11,12 @@ import {
   Button,
   AppRegistry
 } from 'react-native';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import OtpInputs from 'react-native-otp-inputs'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import config from '../../../config';
+import { Sae } from 'react-native-textinput-effects';
+import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
 
 
 export default class SignupVerifyComponent extends Component {
@@ -51,30 +54,79 @@ export default class SignupVerifyComponent extends Component {
 
   render() {
     return (
-      <View>
-        <OtpInputs focusedBorderColor="#f0f0f0"
-                    inputContainerStyles={{backgroundColor: "white", borderColor:"grey", borderWidth:1}}
-                    handleChange={otp => this.setState({otp})} 
-          numberOfInputs={4} />
-        <TextInput
-            placeholder="DL"
+      <View flex={1} style={{flexDirection:'column'}}>
+        <View flex={1} style={{
+          borderRadius: 2,
+          padding: 8,
+          margin: 8,
+          backgroundColor: 'rgba(255, 255, 255, 1)',
+          minHeight: 76,
+          shadowOpacity: 0.54,
+          shadowRadius: 1,
+          shadowOffset: { width: 0, height: 1 },
+          elevation: 1,
+        }}>
+          <Sae
+            label={'Enter DL'}
+            iconClass={FontAwesomeIcon}
+            iconName={'pencil'}
+            iconColor={'#003e9c'}
+            inputStyle={{color:'#003e9c'}}
+            labelStyle={{color:'#003e9c'}}
+            autoCapitalize={'none'}
+            autoCorrect={false}
             onChangeText={(dl) => this.setState({dl})}
+            secureTextEntry={true}
             value={this.state.dl}
             editable = {true}
             maxLength = {40}
-          />
-        <TextInput
-            placeholder="UID"
+            autoCorrect={false}
+            style={{marginBottom:10}}
+            />
+          <Sae
+            label={'Enter Aadhaar'}
+            iconClass={FontAwesomeIcon}
+            iconName={'pencil'}
+            iconColor={'#003e9c'}
+            inputStyle={{color:'#003e9c'}}
+            labelStyle={{color:'#003e9c'}}
+            autoCapitalize={'none'}
+            autoCorrect={false}
             onChangeText={(uid) => this.setState({uid})}
+            secureTextEntry={true}
+            keyboardType={'numeric'}
             value={this.state.uid}
             editable = {true}
             maxLength = {40}
+            autoCorrect={false}
+            style={{marginBottom:10}}
+            />
+          <Sae
+            label={'Enter Received OTP'}
+            iconClass={FontAwesomeIcon}
+            iconName={'pencil'}
+            iconColor={'#003e9c'}
+            inputStyle={{color:'#003e9c'}}
+            labelStyle={{color:'#003e9c'}}
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            onChangeText={(otp) => this.setState({otp})}
+            secureTextEntry={true}
+            value={this.state.otp}
+            editable = {true}
+            maxLength = {40}
+            keyboardType={'numeric'}
+            autoCorrect={false}
+            style={{marginBottom:10}}
+            />
+          <TextButton
+            onPress={this.verifyUser.bind(this)}
+            title="Verify DL by Aadhaar"
+            color="#1c437c"
+            titleColor='white'
+            style={{marginTop:10}}
           />
-        <Button
-          onPress={this.verifyUser.bind(this)}
-          title="verify"
-          color="#841584"
-        />
+        </View>
       </View>
     );
   }

@@ -145,10 +145,10 @@ class RaspbVerify(APIView):
                                              validity=True)[0]
             emitdata['amount_paid'] = txnObj.amount_paid
             emitdata['journey_type'] = txnObj.ttype
-            if str(txnObj.rc.vehicle_no) != alpred_no:
-                emitdata['scan_valid'] = False
-                emitdata['invalid_reason'] = 'ALPR Didnt Match'
-                return Response({'res': False, 'emitdata': emitdata})
+            # if str(txnObj.rc.vehicle_no) != alpred_no:
+            #     emitdata['scan_valid'] = False
+            #     emitdata['invalid_reason'] = 'ALPR Didnt Match'
+            #     return Response({'res': False, 'emitdata': emitdata})
             # if the user's transaction is valid for this eToll
             # check the ttype and check the validity accordingly
             if txnObj.ttype == 'S':

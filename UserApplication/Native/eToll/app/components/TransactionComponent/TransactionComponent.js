@@ -88,7 +88,7 @@ export default class TransactionComponent extends Component {
               <Button
                 onPress={()=>this.setState({cardOTPModal:true, cardInfoModal:false})}
                 title="To Card OTP Page"
-                color="#841584"
+                color="#1c437c"
               />
             </View>)
   }
@@ -117,13 +117,12 @@ export default class TransactionComponent extends Component {
                             .then((jsonResponse)=>{this._endload();this.setState({visibleModal: true,cardOTPModal:false, OKModal:true})})
                             .catch((error)=>{this._endload();console.log('Error sending request ',error)})}}
                 title="To Transaction OK"
-                color="#841584"
+                color="#1c437c"
               />
             </View>)
   }
 
   _renderTransactionOK = () => {
-    // send request to payment success
     return (<Text>Transaction OK Goes Here</Text>)
   }
 

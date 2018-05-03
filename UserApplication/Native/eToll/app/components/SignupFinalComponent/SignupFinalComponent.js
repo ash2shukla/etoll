@@ -15,6 +15,9 @@ import {
 import BottomNavigation, { Tab } from 'react-native-material-bottom-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import config from '../../../config';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Sae } from 'react-native-textinput-effects';
+import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
 
 
 export default class SignupFinalComponent extends Component {
@@ -80,27 +83,58 @@ export default class SignupFinalComponent extends Component {
 
   render() {
     return (
-      <View>
-        <TextInput
-            placeholder="Password"
+        <View flex={1} style={{
+          borderRadius: 2,
+          padding: 8,
+          margin: 8,
+          backgroundColor: 'rgba(255, 255, 255, 1)',
+          minHeight: 76,
+          shadowOpacity: 0.54,
+          shadowRadius: 1,
+          shadowOffset: { width: 0, height: 1 },
+          elevation: 1,
+        }}>
+          <Sae
+            label={'Create a password'}
+            iconClass={FontAwesomeIcon}
+            iconName={'pencil'}
+            iconColor={'#003e9c'}
+            inputStyle={{color:'#003e9c'}}
+            labelStyle={{color:'#003e9c'}}
+            autoCapitalize={'none'}
+            autoCorrect={false}
             onChangeText={(p1) => this.setState({p1})}
+            secureTextEntry={true}
             value={this.state.p1}
             editable = {true}
             maxLength = {40}
-          />
-        <TextInput
-            placeholder="Repeat Password"
+            autoCorrect={false}
+            style={{marginBottom:10}}
+            />
+          <Sae
+            label={'Repeat Password'}
+            iconClass={FontAwesomeIcon}
+            iconName={'pencil'}
+            iconColor={'#003e9c'}
+            inputStyle={{color:'#003e9c'}}
+            labelStyle={{color:'#003e9c'}}
+            autoCapitalize={'none'}
+            autoCorrect={false}
             onChangeText={(p2) => this.setState({p2})}
+            secureTextEntry={true}
             value={this.state.p2}
             editable = {true}
             maxLength = {40}
+            autoCorrect={false}
+            style={{marginBottom:10}}
+            />
+          <TextButton
+            onPress={this.signupUser.bind(this)}
+            title="Finish Signup and Login"
+            color="#1c437c"
+            titleColor='white'
           />
-        <Button
-          onPress={this.signupUser.bind(this)}
-          title="Finish Signup"
-          color="#841584"
-        />
-      </View>
+        </View>
     );
   }
 }

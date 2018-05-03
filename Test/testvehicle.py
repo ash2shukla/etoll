@@ -36,9 +36,11 @@ def getallsharedvehicles(token):
     url = BASE + "vehicle/listshared/"
     return get(url, headers={'Authorization': 'JWT ' + token}).text
 
+
 def getprofile(token):
     url = BASE + "auth/profile/"
     return get(url, headers={'Authorization': 'JWT ' + token}).text
+
 
 if __name__ == "__main__":
     token = loads(login1())['token']

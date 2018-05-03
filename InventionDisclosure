@@ -1,0 +1,67 @@
+Title - eToll System.
+
+Date - 28/04/2018
+
+Field of invention - Miscellaneous
+
+Invention is - System
+
+
+
+Keywords - eToll, electronic Toll Payment, QR code, Mobile Device
+
+Prior Patent - System and method for providing electronic toll collection to users of wireless mobile devices
+US8587454B1
+
+Problems - Complex and hard to scale system.
+		   User must have the mobile device with him at the time of passing through Toll.
+		   Doesnt deal with sharing of vehicles.
+		   No pipeline to use data collected at tolls.
+		   insecure information exchange.
+
+Prior Literature - Automatic Toll Collection System Using QR Code
+International Journal Of Engineering And Computer Science ISSN:2319-7242
+Volume 6 Issue 3 March 2017, Page No. 20614-20616
+
+Problems - Scalability.
+		   No verification of passing vehicle and the price paid for.
+		   Blob Detection overhead to calculate toll (Highly error prone method)
+		   insecure information channel.
+		   More insights can be produced from data but only revenue analysis is performed.
+
+Solution - 
+
+Scalability - PostgreXL, MongoDB , Redis Cache (Storage Scalability)
+			  Spark, Kafka, nodeJS-Socket.io based Realtime Analytics. (analytics scalability)
+			  Django Channels based asynchronous REST API for PostgreXL
+
+Device Independent - Optimized Native Android Application and React Native Application for other devices e.g. Windows phone ( react-native-windows), Apple, Apple Watch, Apple TV, android watch, Xbox etc.
+
+Need of Mobile device to verify payment - User can take printout of vehicle ID on a card. He just needs to plan it in advance and pay. It will be automatically verified at a toll.
+
+Security - Uses TLS-handshake like mechanism to transmit info using ECDHE to transmit critical information so that even on HTTPS force disable.
+
+Insights - Spark.
+
+Sharing of vehicles - Treats vehicle as an entity regulated by the owner. People can share their vehicles using a PIN or QR. Makes it suitable for practical usage e.g. Transport Business Owner giving vehicles to his drivers.
+
+Reassurance of vehicle - Uses Deep Learning based ALPR to verify that the vehicle is indeed for which toll has been paid.
+
+Process Workflow
+
+Novel Features - 
+1. Partially offline operation, ie. No need of any device after paying the toll once.
+2. Personalized analytics for each user eg. Money Spent on tolls, Most visited Toll, Recent Paid, Most used vehicle.
+3. Cross platform application using react native.
+4. Vehicle Specific analytics for government and owners of vehicles eg. who uses a certain vehicle.
+5. DL based ALPR for reassurance of vehicle.
+6. Sharing of vehicle (Vehicle centered RBAC with owner at top of heirarchy).
+
+
+Application -
+1. Reduce time of wait for vehicles on tolls thus increase throughput on Toll Gates.
+2. It can be used alongside or as a replacement of RFID based toll payment systems to cut down on RFID cost.
+3. It can produce significant analytics and further predictions based on daily activities on tolls for goverment to better regulate services on tolls.
+3. The produced analytics can be used for tracking specific vehicle activities as well.
+4. Government can monitor toll collections easily in real time.
+5. Detection of illegal tolls will be trivial.
